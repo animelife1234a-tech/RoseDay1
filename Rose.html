@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For My loveeee 🌹</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+body{
+ margin:0;
+ font-family:Poppins;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:linear-gradient(160deg,#ffd1dc,#f6a5b5,#ff4e50);
+ color:white;
+}
+#s5{
+ text-align:center;
+ padding-top:90px;
+}
+#s5 .btn{ margin-top:22px; }
+.frontCenter{
+ height:100%;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+}
+
+.frontInner{width:100%;max-width:320px;}
+
+.card{
+ width:92%;
+ max-width:420px;
+ height:520px;
+ background:rgba(255,255,255,.18);
+ backdrop-filter:blur(14px);
+ border-radius:22px;
+ padding:26px;
+ box-shadow:0 15px 40px rgba(0,0,0,.25);
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+}
+
+h1{
+ font-family:Dancing Script;
+ font-size:28px;
+ text-align:center;
+}
+
+input,.btn{
+ width:100%;
+ padding:16px;
+ border:none;
+ border-radius:30px;
+ font-size:16px;
+ margin-top:14px;
+ box-sizing:border-box;
+}
+
+input{background:#f1f1f1;}
+.btn{background:#ff2e63;color:white;}
+
+/* proposal */
+
+#choiceArea{position:relative;height:140px;margin-top:18px;}
+.choiceBtn{
+ width:160px;height:56px;border-radius:30px;border:none;
+ background:#ff2e63;color:white;font-size:16px;position:absolute;
+}
+
+/* chat */
+
+.screenCol{display:flex;flex-direction:column;height:100%;}
+#chatWrap{flex:1;overflow-y:auto;margin-top:8px;}
+.chat{display:flex;flex-direction:column;gap:8px;}
+
+.bubble{
+ padding:10px 12px;border-radius:14px;
+ background:white;color:#333;
+ animation:fade .35s ease;
+}
+
+@keyframes fade{
+ from{opacity:0;transform:translateY(6px)}
+ to{opacity:1}
+}
+
+/* game */
+
+#game{
+ position:relative;height:260px;
+ background:rgba(255,255,255,.15);
+ border-radius:16px;margin-top:12px;
+ overflow:hidden;
+}
+.rose{position:absolute;font-size:26px;cursor:pointer;}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<!-- S1 -->
+<div id="s1" class="frontCenter">
+<div class="frontInner">
+<h1>Rose Day 🌹</h1>
+<input id="nameInput" placeholder="Enter your name">
+<button class="btn" id="continueBtn">Continue</button>
+</div>
+</div>
+
+<!-- S2 -->
+<div id="s2" class="hidden">
+<h1 id="q"></h1>
+<div id="noText" style="text-align:center;height:24px"></div>
+<div id="choiceArea">
+<button id="yesBtn" class="choiceBtn">Yes ❤️</button>
+<button id="noBtn" class="choiceBtn">No 😜</button>
+</div>
+</div>
+
+<!-- S3 CHAT -->
+<div id="s3" class="hidden screenCol">
+<h1>For You 🌹</h1>
+<div id="chatWrap"><div id="chat" class="chat"></div></div>
+<button id="gameStart" class="btn hidden">Let’s playyy a gamee 🌹</button>
+</div>
+
+<!-- S4 GAME -->
+<div id="s4" class="hidden">
+<h1>Catch Roses 🌹</h1>
+<div id="game"></div>
+<div id="score"></div>
+</div>
+
+<!-- S5 WIN -->
+<div id="s5" class="hidden">
+<h1>You Win 🌹</h1>
+<div style="text-align:center;margin-top:14px">
+You caught all my roses…<br><b>and my heart ❤️</b>
+</div>
+<button class="btn" id="playAgainBtn">Play again 🌹</button>
+</div>
+
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+/* FLOW */
+
+continueBtn.onclick=()=>{
+ const n=nameInput.value||"Savii";
+ q.innerText=`Will you be my Rose, ${n}? 🌹`;
+ s1.classList.add("hidden");
+ s2.classList.remove("hidden");
+ yesBtn.style.left="0"; yesBtn.style.bottom="0";
+ noBtn.style.right="0"; noBtn.style.bottom="0";
+ noScale=1;
+};
+
+/* NO BUTTON */
+
+let noScale=1;
+
+function overlap(a,b){
+ return !(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom);
+}
+
+noBtn.onclick=()=>{
+ const area=choiceArea.getBoundingClientRect();
+ const yes=yesBtn.getBoundingClientRect();
+ noScale*=.85;
+ noBtn.style.transform=`scale(${noScale})`;
+
+ let x,y,r,tries=0;
+ do{
+  x=Math.random()*(area.width-noBtn.offsetWidth);
+  y=Math.random()*(area.height-noBtn.offsetHeight);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+  r=noBtn.getBoundingClientRect();
+  tries++;
+ }while(overlap(r,yes)&&tries<80);
+
+ const msgs = [
+  "Noo kyu 😭",
+  "Please yes 😄",
+  "Think again 🌹",
+  "Rose ko reject karogi? 🥺",
+  "Itna bhi kya sochna 😌",
+  "Ek chance to banta hai ❤️",
+  "Phir se try karo na 😊",
+  "Dil se pooch ke dekho 💫",
+  "Answer lock karne se pehle socho 😄",
+  "Yeh button sharma raha hai 🌹",
+  "Rose wait kar raha hai tumhare haan ka 🌸",
+  "System says — yes better option 😌",
+  "Retry recommended 💌",
+  "Aapka final answer? 😄",
+  "Sach wala answer do na 🥺",
+  "Hint: Yes looks good on you 🌹",
+  "Are you sure sure? 😋",
+  "Dil ne kya kaha? ❤️",
+  "One more chance 😄",
+  "Rose disappointed ho jayega 🌹"
+];
+
+ noText.innerText=msgs[Math.floor(Math.random()*msgs.length)];
+};
+
+/* YES → CHAT */
+
+yesBtn.onclick=()=>{
+ s2.classList.add("hidden");
+ s3.classList.remove("hidden");
+ startChat();
+};
+
+/* CHAT */
+
+const lines = [
+  "For you, on Rose Day 🌹✨",
+  "Not just a flower… but a thank you for being in my life 🤍🌸",
+  "You’re not ‘just important’, you’re the calm, the strength, the softness I lean on 🫶🌷",
+  "Even on my worst days, your presence feels like comfort 🌙💞",
+  "You make ordinary moments feel special without even trying 🌼✨",
+  "If I could, I’d send you a rose for every time you stood by me 🌹🌹",
+  "This little page is just a small way to say 'how much I love you and how much I appreciate your presence in my life ❤️🌺'",
+  "Happy Rose Day, Meraa cutuuu bettuuuuuu 🌹🥰"
+];
+
+function startChat(){
+ chat.innerHTML="";
+ let i=0;
+ const t=setInterval(()=>{
+  if(i>=lines.length){
+    clearInterval(t);
+    gameStart.classList.remove("hidden");
+    return;
+  }
+  const d=document.createElement("div");
+  d.className="bubble";
+  d.innerText=lines[i];
+  chat.appendChild(d);
+  chatWrap.scrollTop=chatWrap.scrollHeight;
+  i++;
+ },1500);
+}
+
+/* GAME */
+
+gameStart.onclick=()=>{
+ s3.classList.add("hidden");
+ s4.classList.remove("hidden");
+ startGame();
+};
+
+playAgainBtn.onclick=()=>{
+ s5.classList.add("hidden");
+ s4.classList.remove("hidden");
+ startGame();
+};
+
+function startGame(){
+
+ const total=Math.floor(Math.random()*7)+9; // ✅ FIXED → 7–15
+ let score=0,spawned=0,finished=0;
+
+ game.innerHTML="";
+ const scoreDiv = $("score");              // ✅ FIXED
+ scoreDiv.innerHTML="Score: 0";            // ✅ FIXED
+
+ const spawn=setInterval(()=>{
+  if(spawned>=total){clearInterval(spawn);return;}
+  spawned++;
+
+  const r=document.createElement("div");
+  r.className="rose"; 
+  r.innerHTML="🌹";
+  r.style.left=Math.random()*90+"%";
+  r.style.top="-30px";
+  game.appendChild(r);
+
+  let y=-30;
+  const fall=setInterval(()=>{
+    y+=5; 
+    r.style.top=y+"px";
+    if(y>260){
+      r.remove();
+      clearInterval(fall);
+      finished++;
+      check();
+    }
+  },30);
+
+  r.onclick=()=>{
+    r.remove();
+    clearInterval(fall);
+    score++;
+    finished++;
+    scoreDiv.innerHTML="Score: "+score;   // ✅ FIXED
+    check();
+  };
+
+ },500);
+
+ function check(){
+  if(finished === total){
+
+    if(score === total){
+      s4.classList.add("hidden");
+      s5.classList.remove("hidden");
+    } 
+    else {
+      showRetry();   // now exists
+    }
+
+  }
+ }
+
+ function showRetry(){                      // ✅ FIXED — added back
+  const btn=document.createElement("button");
+  btn.className="btn";
+  btn.innerHTML="Try again to catch all my roses 🌹";
+  btn.onclick=startGame;
+  scoreDiv.appendChild(btn);
+ }
+
+}
+</script>
+
+</body>
+</html>
